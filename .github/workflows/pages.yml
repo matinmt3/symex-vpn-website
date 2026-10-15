@@ -1,0 +1,90 @@
+name: Publish website to GitHub Pages
+
+"on":
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Set up Python for explicit public-file staging
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Stage only the explicitly listed website files
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path, PurePosixPath
+          import shutil
+
+          PUBLIC_FILES = [
+              ".nojekyll",
+              "LICENSE",
+              "assets/favicon.svg",
+              "assets/fonts/Vazirmatn.woff2",
+              "assets/vendor/GSAP-NOTICE.txt",
+              "assets/vendor/ScrollTrigger.min.js",
+              "assets/vendor/gsap.min.js",
+              "assets/vendor/vazirmatn-OFL.txt",
+              "docs/THIRD_PARTY.md",
+              "index.html",
+              "script.js",
+              "style.css"
+          ]
+          root = Path.cwd().resolve()
+          output = root / "_site"
+          output.mkdir(exist_ok=False)
+          for name in PUBLIC_FILES:
+              relative = PurePosixPath(name)
+              if relative.is_absolute() or ".." in relative.parts:
+                  raise SystemExit(f"Invalid public path: {name}")
+              source = root.joinpath(*relative.parts)
+              if not source.is_file() or source.is_symlink() or not source.resolve().is_relative_to(root):
+                  raise SystemExit(f"Missing or unsafe public file: {name}")
+              target = output.joinpath(*relative.parts)
+              target.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copy2(source, target)
+          actual = {p.relative_to(output).as_posix() for p in output.rglob("*") if p.is_file()}
+          if actual != set(PUBLIC_FILES):
+              raise SystemExit("Unexpected files in public artifact")
+          print(f"Staged {len(actual)} explicitly allowed public files.")
+          PY
+      - name: Upload public site artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Deploy public site
+        id: deployment
+        uses: actions/deploy-pages@v4
