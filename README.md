@@ -8,7 +8,7 @@
 
 منوی واکنش‌گرا، کپی شناسهٔ عمومی، ماکاپ اتصال شبیه‌سازی‌شده، FAQ، پویانمایی و canvas تزئینی.
 
-فونت‌ها و GSAP/ScrollTrigger به‌صورت محلی همراه پروژه‌اند؛ برای اجرای سایت CDN لازم نیست. تمام قیمت‌ها، آمار، بازخوردها و رفتارهای آزمایشی دادهٔ نمونه هستند. رزرو، پرداخت، عضویت خبرنامه و اتصال VPN واقعی از این صفحه انجام نمی‌شوند.
+فونت‌ها و GSAP/ScrollTrigger به‌صورت محلی همراه پروژه‌اند؛ برای اجرای سایت CDN لازم نیست. آمار و وضعیت اتصال، نمونه و شبیه‌سازی رابط‌اند. دکمهٔ اتصال فقط ظاهر صفحه را تغییر می‌دهد و ارتباط VPN ایجاد نمی‌کند؛ پیوند عمومی کانال تلگرام از منبع حفظ شده است.
 
 ## اجرای محلی
 
@@ -28,8 +28,8 @@ npm start
 - محدودهٔ نمایشی محصول در خود صفحه و README آشکار است.
 - اطلاعات شخصی کاربران، کلید یا پایگاه دادهٔ واقعی وارد این مخزن نشده است.
 
-برای تغییر محصولات یا متن‌ها، `script.js` و `index.html` را ویرایش کنید. سبک‌ها در `style.css` هستند. [منابع و مجوزها](docs/THIRD_PARTY.md) و [حقوق](LICENSE) همراه پروژه‌اند.
+برای تغییر متن‌ها، پیوند عمومی و رفتار شبیه‌ساز، `script.js` و `index.html` را ویرایش کنید. سبک‌ها در `style.css` هستند. [منابع و مجوزها](docs/THIRD_PARTY.md) و [حقوق](LICENSE) همراه پروژه‌اند.
 
 ## English
 
-A Persian RTL frontend portfolio demonstration. Business/client provenance is not independently verified; do not present this repository as a verified client commission. All sample metrics, prices and testimonials are illustrative. Forms do not submit to a backend, no payment is processed, and no VPN connection is established. Public business links intentionally supplied by the original source are retained. All runtime fonts and animation assets are bundled locally.
+A Persian RTL VPN landing-page interface preview. Business/client provenance is not independently verified; this repository is not presented as a verified client commission. Metrics and connection status are illustrative. The connection control only changes the interface and does not establish a VPN connection. The source's public Telegram channel is retained. All runtime fonts and animation assets are bundled locally.
