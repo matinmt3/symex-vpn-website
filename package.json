@@ -1,0 +1,13 @@
+{
+  "name": "symex-vpn-website",
+  "version": "1.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "description": "نمونه‌کار لندینگ فارسی SYMEX VPN با شبیه‌ساز رابط اتصال و پیوند عمومی تلگرام.",
+  "scripts": {
+    "start": "node scripts/serve.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
